@@ -1,0 +1,8 @@
+
+path: /root/.cache/kagglehub/datasets/fareselmenshawii/license-plate-dataset/versions/1
+
+train: images/train
+val: images/val
+
+names:
+  0: license_plate

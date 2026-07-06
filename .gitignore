@@ -1,0 +1,33 @@
+# Virtual environment
+.venv/
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Jupyter
+.ipynb_checkpoints/
+
+# PyCharm
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Logs
+*.log
+
+# --------------------
+# Datasets
+# --------------------
+data/
+
+# --------------------
+# Ultralytics config
+# --------------------
+.config/
+
+# YOLO training outputs
+Yolo_training_data/license_plate_detector/
+Yolo_training_data/runs/
