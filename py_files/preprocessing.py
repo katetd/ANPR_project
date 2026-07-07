@@ -1,5 +1,4 @@
 import cv2
-from pathlib import Path
 
 def to_gray(plate):
     return cv2.cvtColor(
@@ -98,31 +97,20 @@ from pathlib import Path
 
 sr = None
 
-
 def load_super_resolution(model_path=None):
-
     global sr
-
     if sr is None:
-
         if model_path is None:
-
             model_path = (
                 Path(__file__).resolve().parent.parent
                 / "models"
                 / "FSRCNN_x4.pb"
             )
-
         sr = cv2.dnn_superres.DnnSuperResImpl_create()
-
         sr.readModel(str(model_path))
-
         sr.setModel("fsrcnn", 4)
-
     return sr
 
 def super_resolve(image):
-
     sr = load_super_resolution()
-
     return sr.upsample(image)

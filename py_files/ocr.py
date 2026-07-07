@@ -4,10 +4,8 @@ def recognize_plate(image, reader):
         image,
         allowlist="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
     )
-
     if not result:
         return None, None
-
     result = sorted(
         result,
         key=lambda x: min(
@@ -15,15 +13,12 @@ def recognize_plate(image, reader):
             for p in x[0]
         )
     )
-
     text = "".join(
         r[1].upper()
         for r in result
     )
-
     confidence = sum(
         r[2]
         for r in result
     ) / len(result)
-
     return text, confidence
