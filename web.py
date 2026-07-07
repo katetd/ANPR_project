@@ -1,12 +1,9 @@
 import tempfile
-
 import cv2
 import easyocr
 import pandas as pd
 import streamlit as st
-
 from ultralytics import YOLO
-
 from py_files.detection import extract_plate
 from py_files.preprocessing import preprocess_plate
 from py_files.postprocessing import best_prediction
@@ -18,25 +15,13 @@ st.set_page_config(
 
 st.title("License Plate Recognition System")
 
-st.write(
-    """
-    Deep Learning pipeline:
-
-    YOLO11 → Plate Extraction → Image Preprocessing →
-    EasyOCR → Post-processing
-    """
-)
-
 @st.cache_resource
 def load_models():
-
     model = YOLO("models/best.pt")
-
     reader = easyocr.Reader(
         ["en"],
         gpu=False
     )
-
     return model, reader
 
 
@@ -48,29 +33,21 @@ uploaded = st.file_uploader(
 )
 
 if uploaded is not None:
-
     with tempfile.NamedTemporaryFile(
         suffix=".jpg",
         delete=False
     ) as tmp:
-
         tmp.write(uploaded.read())
-
         image_path = tmp.name
-
     plates = extract_plate(
         image_path,
         model
     )
 
     if len(plates) == 0:
-
         st.error("No license plate detected.")
-
         st.stop()
-
     plate = plates[0]
-
     result = best_prediction(
         plate,
         reader

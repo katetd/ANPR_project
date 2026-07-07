@@ -2,10 +2,12 @@ from py_files.detection import extract_plate
 from py_files.preprocessing import preprocess_plate
 from py_files.ocr import recognize_plate
 
+
 def predict_license_plate(
     image_path,
     model,
-    reader
+    reader,
+    method="baseline"
 ):
 
     plates = extract_plate(
@@ -14,15 +16,26 @@ def predict_license_plate(
     )
 
     if len(plates) == 0:
-        return None, None
+        return {
+            "detected": False,
+            "prediction": None,
+            "confidence": 0,
+            "plate": None
+        }
 
-    plate = preprocess_plate(
-        plates[0]
+    processed = preprocess_plate(
+        plates[0],
+        method=method
     )
 
     text, confidence = recognize_plate(
-        plate,
+        processed,
         reader
     )
 
-    return text, confidence
+    return {
+        "detected": True,
+        "prediction": text,
+        "confidence": confidence,
+        "plate": processed
+    }

@@ -31,3 +31,5 @@ data/
 # YOLO training outputs
 Yolo_training_data/license_plate_detector/
 Yolo_training_data/runs/
+Yolo_training_data/yolo11n.pt
+Yolo_training_data/yolo26n.pt

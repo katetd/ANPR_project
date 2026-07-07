@@ -1,5 +1,5 @@
 import cv2
-
+from pathlib import Path
 
 def to_gray(plate):
     return cv2.cvtColor(
@@ -8,7 +8,7 @@ def to_gray(plate):
     )
 
 
-def resize(gray, scale=6):
+def resize(gray, scale=1):
     return cv2.resize(
         gray,
         None,
@@ -57,42 +57,72 @@ def adaptive(gray):
         11,
         2
     )
-
-
 def preprocess_plate(
     plate,
-    method="baseline"
+    method="baseline",
+    use_super_resolution=False
 ):
-
+    if use_super_resolution:
+        plate = super_resolve(plate)
+        scale = 1
+    else:
+        scale = 6
     gray = to_gray(plate)
-    gray = resize(gray)
-
+    gray = resize(
+        gray,
+        scale=scale
+    )
     if method == "baseline":
         return gray
-
     elif method == "equalize":
-        gray = equalize(gray)
-        return gray
-
+        return equalize(gray)
     elif method == "clahe":
-        gray = clahe(gray)
-        return gray
-
+        return clahe(gray)
     elif method == "otsu":
         gray = gaussian(gray)
-        gray = otsu(gray)
-        return gray
-
+        return otsu(gray)
     elif method == "adaptive":
         gray = gaussian(gray)
-        gray = adaptive(gray)
-        return gray
+        return adaptive(gray)
 
     elif method == "clahe_otsu":
         gray = clahe(gray)
         gray = gaussian(gray)
-        gray = otsu(gray)
-        return gray
+        return otsu(gray)
 
     else:
         raise ValueError(f"Unknown preprocessing method: {method}")
+
+
+from pathlib import Path
+
+sr = None
+
+
+def load_super_resolution(model_path=None):
+
+    global sr
+
+    if sr is None:
+
+        if model_path is None:
+
+            model_path = (
+                Path(__file__).resolve().parent.parent
+                / "models"
+                / "FSRCNN_x4.pb"
+            )
+
+        sr = cv2.dnn_superres.DnnSuperResImpl_create()
+
+        sr.readModel(str(model_path))
+
+        sr.setModel("fsrcnn", 4)
+
+    return sr
+
+def super_resolve(image):
+
+    sr = load_super_resolution()
+
+    return sr.upsample(image)
