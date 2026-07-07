@@ -84,4 +84,4 @@ The project includes:
 
 ## Limitations
 
-The OCR module is based on EasyOCR, a general-purpose optical character recognition model. Recognition quality depends on image resolution, illumination, viewing angle, and plate quality. Additional improvements could be achieved by training a license-plate-specific OCR model.
+The OCR module is based on EasyOCR, a general-purpose optical character recognition model. Recognition quality depends on image resolution, illumination, viewing angle, and plate quality. Additional improvements could be achieved by training a license-plate-specific OCR model, which was impossible for now due to lack of GPU resources. 
