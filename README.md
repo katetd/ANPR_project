@@ -1,5 +1,7 @@
 # License Plate Recognition System
 
+Video presentation: [here](https://drive.google.com/file/d/1TvIfM8Xtb6KRpRfUk51m4gIAgZWc-fq7/view?usp=sharing)
+
 A Deep Learning project for automatic license plate detection and recognition.
 
 The system detects license plates using a YOLO11 object detector and recognizes the extracted text using EasyOCR. Several image preprocessing techniques, Super Resolution, and OCR post-processing are applied to improve recognition quality.
